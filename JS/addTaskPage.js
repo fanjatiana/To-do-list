@@ -1,10 +1,11 @@
 import { ToDoList } from "./service/service.js";
 const toDOLisTManagement = new ToDoList;
 
+const arrayListOfTasks = await toDOLisTManagement.getData();
+toDOLisTManagement.postOneTask(arrayListOfTasks);
 
-toDOLisTManagement.postOneTask();
-console.log(toDOLisTManagement.postOneTask());
-console.log(toDOLisTManagement.toDoListUpdated); 
+console.log(arrayListOfTasks)
+
 
 // const btn = document.getElementById("btn");
 

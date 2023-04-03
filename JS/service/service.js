@@ -2,6 +2,27 @@ import { myTodoList } from "../myTodoList.js"
 
 export class ToDoList {
 
+    async getData() {
+        const response = await fetch('data.json');
+        const tasks = await response.json();
+        console.log(tasks)
+        return tasks;
+    }
+
+    async postData(data) {
+        const response = await fetch('data.json', {
+            headers: {
+                'Accept': 'application/json',
+                "Content-Type": "application/json",
+            },
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true ,
+            method: "POST",
+            body: JSON.stringify(data),
+        })
+        return response.text();
+    }
+
     toDoListUpdated = myTodoList;
     addOneTaskInDom(array) {
         const divInbox = document.querySelector(".inbox");
@@ -9,7 +30,7 @@ export class ToDoList {
             divInbox.innerHTML += `
             <div class="item">
                 <input type="checkbox" class="chekbox">
-                <p>${element}</p>
+                <p>${element.title}</p>
                 <img src="img/delete.png">
             </div>
             `
@@ -71,13 +92,15 @@ export class ToDoList {
     //     return newArray;
     // }
 
-    postOneTask() {
+    postOneTask(array) {
         const btn = document.getElementById("btn");
         btn.addEventListener("click", (e) => {
             let inputValue = document.getElementById("inputAdd").value;
             e.preventDefault();
-            this.toDoListUpdated.push(inputValue);
-            return this.toDoListUpdated;
+            array.push({ title: inputValue });
+            this.postData(array);
+            console.log(array)
+            return array;
         })
     }
 
